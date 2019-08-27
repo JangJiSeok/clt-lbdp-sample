@@ -50,7 +50,8 @@ public class DemoJpaApplication implements CommandLineRunner{
         
         System.out.println("\nCity findByCountrycodeReturnStream('AFG')");
        repository2.findByCountrycode("AFG").forEach(x -> System.out.println(x));
-        
+
+
         
     }
 
