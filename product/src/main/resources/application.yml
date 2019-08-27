@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+
+topic:
+  topicName: topic
+
+---
+spring:
+  profiles: default
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      enable-auto-commit: true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace        
+
+server:
+  port: 8082
+
+inventoryUrl: http://localhost:8083
+financeUrl: http://localhost:8084
+---
+spring:
+  profiles: docker
+  kafka:
+    bootstrap-servers: my-kafka.kafka.svc.cluster.local:9092
+    consumer:
+      enable-auto-commit: true
+
+inventoryUrl: http://inventory:8080
+financeUrl: http://finance:8080

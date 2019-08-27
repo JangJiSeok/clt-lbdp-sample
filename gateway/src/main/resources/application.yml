@@ -1,0 +1,53 @@
+
+server:
+  port: 8080
+
+---
+spring:
+  profiles: default
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8080/.well-known/jwks.json
+  cloud:
+    gateway:
+      routes:
+        - id: market
+          uri: http://localhost:8081
+          predicates:
+            - Path=/market/**
+        - id: product
+          uri: http://localhost:8082
+          predicates:
+            - Path=/product/**
+        - id: inventories
+          uri: http://localhost:8083
+          predicates:
+            - Path=/inventories/**
+        - id: finance
+          uri: http://localhost:8084
+          predicates:
+            - Path=/budget*/**
+        - id: websocket
+          uri: http://localhost:8086
+          predicates:
+            - Path=/websocket/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+spring:
+  profiles: docker
+
+server:
+  port: 8080

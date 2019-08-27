@@ -1,0 +1,27 @@
+server:
+  port : 9080
+  
+  
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: socket1
+          uri: http://localhost:9090
+          predicates:
+            - Path=/gs-guide-websocket/**
+        - id: socket2
+          uri: http://localhost:9090
+          predicates:
+            - Path=/one/**            
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true        
