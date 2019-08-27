@@ -18,8 +18,6 @@
         <module>gateway</module>
         <module>oauth</module>
         <module>webscoket</module>
-
         <module>library</module>
-        <module>demo2-jpa</module>
     </modules>
 </project>
