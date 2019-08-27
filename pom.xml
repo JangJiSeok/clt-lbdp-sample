@@ -20,5 +20,6 @@
         <module>webscoket</module>
 
         <module>library</module>
+        <module>demo2-jpa</module>
     </modules>
 </project>

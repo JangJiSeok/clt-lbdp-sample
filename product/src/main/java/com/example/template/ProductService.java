@@ -35,7 +35,6 @@ public class ProductService {
 
         String inventoryUrlPath = this.inventoryUrl + "/inventories";
         String financeUrlPath = this.financeUrl + "/budgets";
-
         // 1. checkInventory
         ResponseEntity<String> inventoryEntity = restTemplate.getForEntity(inventoryUrlPath, String.class);
         System.out.println(inventoryEntity.getStatusCode());
