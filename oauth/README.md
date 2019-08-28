@@ -21,6 +21,8 @@ grant_type=password \
 username=4@4.com \  
 password=password
 
+http --form POST localhost:8090/oauth/token "Authorization: Basic dWVuZ2luZS1jbGllbnQ6dWVuZ2luZS1zZWNyZXQ=" grant_type=password username=4@4.com password=password
+
 ## jks 파일 생성 방법
 https://www.lesstif.com/pages/viewpage.action?pageId=20775436  
 
