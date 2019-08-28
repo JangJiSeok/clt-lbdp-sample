@@ -24,10 +24,10 @@ public class TimerService {
 		messagingTemplate.convertAndSend("/topic/greetings", new Greeting(5, "Hello, " + "TimerServer Sent " +  dateTimeFormatter.format(LocalDateTime.now())));
 	}
 	
-	@Scheduled(fixedRate = 1000000)
+	@Scheduled(fixedRate = 10000)
 	public void schedule2TaskWithFixedRate() {
 		System.out.println("Schedule start: SendToUser 222");
-		messagingTemplate.convertAndSendToUser("jang", "/queue/reply", new Greeting(5, "Hello, " + "TimerServer Sent " +  dateTimeFormatter.format(LocalDateTime.now())));
+		messagingTemplate.convertAndSendToUser("jang", "/queue/jang/reply", new Greeting(5, "Hello, " + "TimerServer Sent " +  dateTimeFormatter.format(LocalDateTime.now())));
 	}
 	
 

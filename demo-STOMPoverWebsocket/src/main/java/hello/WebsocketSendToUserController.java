@@ -1,6 +1,8 @@
 package hello;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ import com.google.gson.Gson;
 @Controller
 public class WebsocketSendToUserController {
 
-	
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	@Autowired
     private SimpMessageSendingOperations messagingTemplate;
@@ -35,7 +37,7 @@ public class WebsocketSendToUserController {
     
     @MessageMapping("/message")
     @RequestMapping("/message")
-    @SendToUser("/queue/reply")
+    //@SendToUser("/queue/jang/reply")
     public String processMessageFromClient(Message<Object> message,@Payload String msg, @Header("simpSessionId") String sessionId) throws Exception {
     	System.out.println("one obj Message Received!" + message);
     	System.out.println("one Message Received!" + msg);
@@ -47,10 +49,10 @@ public class WebsocketSendToUserController {
         
         String username="queue/reply-user"+ sessionId;
         System.out.println("username:" + username);
-        
+        String authedSender="";
         try {
         Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
-        String authedSender = principal.getName();
+        authedSender = principal.getName();
         System.out.println("authedSender:" + authedSender);
         } catch(Exception ex) {
         	ex.printStackTrace();
@@ -58,15 +60,15 @@ public class WebsocketSendToUserController {
         
         sendMessage(username,"user/queue/reply", rS2);
         
-        //messagingTemplate.convertAndSendToUser("/queue/reply-" + "mycustomidentifier", "user/queue/reply", "jangjjjjj");
-        messagingTemplate.convertAndSend("/queue/reply-"+sessionId,  "jangjjjjj");
-       
+       // messagingTemplate.convertAndSend("/queue/"+ authedSender +"/reply",  "jangjjjjj");
+        messagingTemplate.convertAndSendToUser(authedSender, "/queue/"+authedSender+"/reply", new Greeting(5, "Hello, " + "Message Mapping Op Sent " +  dateTimeFormatter.format(LocalDateTime.now())));
+       // messagingTemplate.convertAndSend("/queue/"+ message +"/reply",  "jangjjjjj");
         
     	return rS2;
     }
 
     @MessageExceptionHandler
-    @SendToUser("/queue/errors")
+    @SendToUser("/queue/jang/errors")
     public String handleException(Throwable exception) {
     	System.out.println("one Message Received! But Error!");
     	

@@ -39,6 +39,18 @@ function getData() {
 }
 
 
+function getSessionId(socket) {
+     var simpSessionId;
+    if (socket !== null) {
+        var strURL=socket._transport.url;
+        var iPos= strURL.lastIndexOf( "/" )
+        if (iPos !=-1) {
+          simpSessionId= strURL.substring(iPos+1,strURL.length )
+        }
+    }
+    return simpSessionId;
+}
+
 function connect() {
     //var socket = new SockJS('/gs-guide-websocket');
 	//var socket = new SockJS('http://localhost:8081/gs-guide-websocket');
@@ -49,12 +61,17 @@ function connect() {
     wsClient.connect({name: sendName }, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
+        console.log('===========socket.id: '+ socket._transport.url);
 
-        wsClient.subscribe('/user/queue/errors', function (greeting) {
+
+        console.log("connected, session id: " + getSessionId(socket));
+        console.log("===============================================================");
+
+        wsClient.subscribe('/user/queue'+ sendName +'/errors', function (greeting) {
             alert('Error !:' + greeting.body);
         });
 
-        wsClient.subscribe('/user/queue/reply', function (greeting) {
+        wsClient.subscribe('/user/queue/'+ sendName +'/reply', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
