@@ -35,6 +35,13 @@ public class AuthorizationServerApplication implements CommandLineRunner {
 
 		repository.save(user);
 
+		user.setId(1l);
+		user.setUsername("jojang.com");
+		user.setPassword(passwordEncoder.encode("password"));
+		user.setRole("USER_ADMIN");
+
+		repository.save(user);
+
 	}
 
 

@@ -9,9 +9,13 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
         show_sql: true
   datasource:
-    url: jdbc:mysql://104.198.86.212:3306/uengine
-    username: root
-    password: test1234!@
+#    url: jdbc:mysql://104.198.86.212:3306/uengine
+#    username: root
+#    password: test1234!@
+    url: jdbc:mysql://localhost:3306/world?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: test
+    password: test
+
     # mybatis 설정시에는 driverClassName 을 넣어주어야함
     driverClassName: com.mysql.cj.jdbc.Driver
 

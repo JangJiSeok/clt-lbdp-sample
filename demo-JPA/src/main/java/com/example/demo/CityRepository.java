@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface CityRepository extends CrudRepository<City, Long> {
+public interface CityRepository extends PagingAndSortingRepository<City, Long> {
 	
 	 List<City> findByName(String name);
 	 

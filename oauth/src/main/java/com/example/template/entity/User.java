@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,39 +20,36 @@ import lombok.ToString;
 
 @ToString
 @Entity
+@Data
 @Table(name = "user")
 public class User implements UserDetails{
 
 	@Id
-	@Getter@Setter
 	private Long id;
 	
-	@Getter@Setter
 	private String username;
 	
 	@Column(length=400)
-	@Getter@Setter
 	private String password;
 	
 	@Column
-	@Getter@Setter
 	private String role;
 	
 	@Transient
-	@Getter@Setter
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	@Getter@Setter
 	private boolean accountNonExpired = true;
 	
-	@Getter@Setter
 	private boolean accountNonLocked = true;
 
-	@Getter@Setter
 	private boolean credentialsNonExpired = true;
 	
-	@Getter@Setter
 	private boolean enabled = true;
 
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
 
 }
