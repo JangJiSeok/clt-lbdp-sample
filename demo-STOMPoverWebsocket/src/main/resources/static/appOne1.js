@@ -64,6 +64,7 @@ function connect() {
 
 function disconnect() {
     if (wsClient !== null) {
+        //wsClient.unsubscribe();
         wsClient.disconnect();
     }
     setConnected(false);

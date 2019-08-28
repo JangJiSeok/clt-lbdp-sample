@@ -14,12 +14,12 @@ public class WsTranportHandler extends TextWebSocketHandler {
     // connection이 맺어진 후 실행된다
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.err.println("장재옥.... session connected +=" + session);
+        System.out.println("장재옥.... session connected +=" + session);
     }
     // 메세지 수신
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        System.err.println("장재옥....handle message +=" + session + ", message=" + message);
+        System.out.println("장재옥....handle message +=" + session + ", message=" + message);
 
         //echo Message
         session.sendMessage(message);
@@ -28,13 +28,13 @@ public class WsTranportHandler extends TextWebSocketHandler {
     // transport 중 error
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        System.err.println("장재옥....transport error =" + session +", exception =" + exception);
+        System.out.println("장재옥....transport error =" + session +", exception =" + exception);
     }
     // connection close
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 
-        System.err.println("장재옥....session close -=" + session);
+        System.out.println("장재옥....session close -=" + session);
 
     }
 }

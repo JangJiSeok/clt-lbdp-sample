@@ -24,15 +24,6 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 @EnableWebSocketMessageBroker
 public class WebSocketSendToUserConfig implements WebSocketMessageBrokerConfigurer {
 
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(handlerAdapter(), "/myHandler");
-    }
-
-    @Bean
-    public WsTranportHandler handlerAdapter() {
-        return new WsTranportHandler();
-    }
-
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
@@ -53,7 +44,8 @@ public class WebSocketSendToUserConfig implements WebSocketMessageBrokerConfigur
     
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new UserInterceptor());
+        registration.interceptors(new UserInterceptor(),new StompInterceptor());
+
     }
 
 
