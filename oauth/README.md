@@ -24,3 +24,4 @@ password=password
 ## jks 파일 생성 방법
 https://www.lesstif.com/pages/viewpage.action?pageId=20775436  
 
+##git확인
