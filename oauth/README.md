@@ -21,6 +21,10 @@ grant_type=password \
 username=4@4.com \  
 password=password
 
+-- Authorization: Basic dWVuZ2luZS1jbGllbnQ6dWVuZ2luZS1zZWNyZXQ= 이값은 client ID, client secret을 base64로 변환한 값으로 서버의 사용자그룹을 증명하는 값
+
+
+
 http --form POST localhost:8090/oauth/token "Authorization: Basic dWVuZ2luZS1jbGllbnQ6dWVuZ2luZS1zZWNyZXQ=" grant_type=password username=4@4.com password=password
 
 ## jks 파일 생성 방법

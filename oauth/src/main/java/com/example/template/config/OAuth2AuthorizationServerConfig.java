@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -22,7 +23,10 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.WebApplicationContext;
 
+import javax.annotation.PostConstruct;
 import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.util.Arrays;
@@ -47,6 +51,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	static final int ACCESS_TOKEN_VALIDITY_SECONDS = 24*60*60; 	// 24시간
 	static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
+
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
@@ -58,6 +63,18 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	@Autowired
 	private Environment env;
+
+	//jang 추가
+	@Autowired
+	private WebApplicationContext applicationContext;
+	private UserRepository repository;
+
+	//jang 추가
+	@PostConstruct
+	public void completeSetup() {
+		repository = applicationContext.getBean(UserRepository.class);
+	}
+
 
 	/**
 	 * DB 설정을 별도로 하게 되면 에러가 발생한다.
@@ -166,18 +183,28 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
             if(authentication.isAuthenticated()) {
                 Map<String, Object> additionalInfo = new HashMap<>();
                 additionalInfo.put("company", "CLT");
+
+                //jang 추가
+				//User user = repository.findByUsername("username");
+				//if(!ObjectUtils.isEmpty(user)) {
+					additionalInfo.put("roles", "role1,role2,role3");
+
+				//}
+
+//                //- 추가적인 정보 추가 start
 //                String clientId = authentication.getOAuth2Request().getClientId();
 //                logger.debug("client ID : " + clientId);
-
+//
 //                ClientDetails client = clientService.loadClientByClientId(clientId);
 //                Map<String, Object> addInfo = client.getAdditionalInformation();
-////                logger.debug("client : " + client.toString());
+//                logger.debug("client : " + client.toString());
 //
 //                if(addInfo!=null){
 //                    for(String key:addInfo.keySet()){
 //                        additionalInfo.put(key, addInfo.get(key));
 //                    }
 //                }
+//                //--end
 
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             }
