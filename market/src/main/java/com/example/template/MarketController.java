@@ -28,6 +28,6 @@ public class MarketController {
                      @PathVariable(value = "offerId") Long offerId
     ) throws Exception {
         return this.marketService.marketOffers(offerId);
-    }
+}
 
 }
