@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class DemoJpaApplication implements CommandLineRunner{
@@ -35,8 +40,19 @@ public class DemoJpaApplication implements CommandLineRunner{
     @Autowired
     JPAService jpaService;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
 	public static void main(String[] args) {
         SpringApplication.run(DemoJpaApplication.class, args);
+
+//        try (ConfigurableApplicationContext ctx = SpringApplication.run(DemoJpaApplication.class, args))       {
+//            DemoJpaApplication m = ctx.getBean(DemoJpaApplication.class);
+//            m.method();
+//            m.run(args);
+//        }
+
+
 	}
 	
     @Override
@@ -44,29 +60,29 @@ public class DemoJpaApplication implements CommandLineRunner{
 
         log.info("StartApplication...");
 
-        System.out.println("\nfindAll()");
-        repository.findAll().forEach(x -> System.out.println(x));
+//        System.out.println("\nfindAll()");
+      // repository.findAll().forEach(x -> System.out.println(x));
 
         System.out.println("\nfindById(1L)");
         repository.findById(1l).ifPresent(x -> System.out.println(x));
-
-        System.out.println("\nfindByName('Node')");
-        repository.findByName("Node").forEach(x -> System.out.println(x));
-
-        
-        System.out.println("\n==================city=================");
-        System.out.println("\nfindById(10L)");
-        repository2.findById(10L).ifPresent(x -> System.out.println(x));
-        
-        System.out.println("\nCity findByName('Rafah')");
-        repository2.findByName("Rafah").forEach(x -> System.out.println(x));
-        
-        System.out.println("\nCity findByCountrycodeReturnStream('AFG')");
-       repository2.findByCountrycode("AFG").forEach(x -> System.out.println(x));
-
-
-        System.out.println("\nCity findByUsername('jojang.com')");
-        repository3.findByUsername("jojang.com").forEach(x -> System.out.println(x));
+//
+//        System.out.println("\nfindByName('Node')");
+//        repository.findByName("Node").forEach(x -> System.out.println(x));
+//
+//
+//        System.out.println("\n==================city=================");
+//        System.out.println("\nfindById(10L)");
+//        repository2.findById(10L).ifPresent(x -> System.out.println(x));
+//
+//        System.out.println("\nCity findByName('Rafah')");
+//        repository2.findByName("Rafah").forEach(x -> System.out.println(x));
+//
+//        System.out.println("\nCity findByCountrycodeReturnStream('AFG')");
+//       repository2.findByCountrycode("AFG").forEach(x -> System.out.println(x));
+//
+//
+//        System.out.println("\nCity findByUsername('jojang.com')");
+//        repository3.findByUsername("jojang.com").forEach(x -> System.out.println(x));
 
 //        EntityManagerFactory factory = applicationContext.getBean(EntityManagerFactory.class); EntityManager manager = factory.createEntityManager();
 //        EntityManager em = factory.createEntityManager();
@@ -106,13 +122,31 @@ public class DemoJpaApplication implements CommandLineRunner{
 //        System.out.println("\nPK Search ('Order')");
 //        System.out.println("ProductName:" +orderItem.getProductName());
 
-
-
-
-
-
-
+            method();
 
     }
+
+
+
+
+    @Autowired private JdbcTemplate jdbc;
+
+	public void method() {
+
+
+//	    this.jdbc.execute("CREATE TABLE TEST_TABLE (ID INTEGER NOT NULL IDENTITY, VALUE VARCHAR(256))");
+//	    this.jdbc.update("INSERT INTO TEST_TABLE (VALUE) VALUES (?)", "hoge");
+//	    this.jdbc.update("INSERT INTO TEST_TABLE (VALUE) VALUES (?)", "fuga");
+//	    this.jdbc.update("INSERT INTO TEST_TABLE (VALUE) VALUES (?)", "piyo");
+//	    List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM TEST_TABLE");
+//	    list.forEach(System.out::println);
+
+        List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM world.ordermaster");
+        list.forEach(System.out::println);
+
+	}
+
+
+
 
 }
