@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -23,6 +25,10 @@ public class JPAController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
+
 
     @Autowired
     JPAService jpaService;
@@ -64,7 +70,6 @@ public class JPAController {
     /**
      * @param request
      * @param response
-     * @param List<Book>
      * @return
      * @throws Exception
      */
@@ -101,18 +106,49 @@ public class JPAController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/save", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public RetrunVO findByName5(HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+    @RequestMapping(value = "/order/save/{chidCnt}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public RetrunVO  findByName7(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable(value = "chidCnt") long chidCnt
+    ) throws Exception {
         System.out.println("/order/save RequestMapping start!!!");
-        Order orderMaster=new Order();
-        orderMaster.setId(2L);
-        orderMaster.setEmp("kim");
-        jpaService.saveOrderMaster(orderMaster);
+
+        Order order=new Order();
+        //orderMaster.setId(orderId);
+        order.setEmp("jang jaeock");
+
+        List<OrderItem> orderItemList = new ArrayList();
+        for (int idx=1; idx<=chidCnt;idx++ ) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProductname("New Data Server");
+            orderItem.setQty(3000L);
+            orderItem.setPrice(500L);
+            orderItemList.add(orderItem);
+        }
+
+        order.setOrderItemList(orderItemList);
+
+        jpaService.saveOrder(order);
+
         RetrunVO vo= new RetrunVO();
         vo.setContents("OK");
         return vo;
     }
+
+    /**
+     * @param
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public Optional<Order> findByOrderId(HttpServletRequest request, HttpServletResponse response,
+                                         @PathVariable(value = "orderId") long orderId
+    ) throws Exception {
+        System.out.println("username RequestMapping start!!!");
+        return this.orderRepository.findById(orderId);
+    }
+
 
 
 

@@ -15,6 +15,7 @@ public class OrderItem {
     private Long   id;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productcode;
 
     private String productname;
@@ -22,3 +23,8 @@ public class OrderItem {
     private long   price;
 }
 
+@Data
+class OrderItemPK implements Serializable {
+    private Long id;
+    private Long productcode;
+}

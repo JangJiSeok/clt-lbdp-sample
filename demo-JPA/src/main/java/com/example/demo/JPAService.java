@@ -27,38 +27,17 @@ public class JPAService {
     }
 
     @Transactional//(propagation = Propagation.REQUIRES_NEW)
-    public void saveOrderMaster(Order orderMaster) {
-        //OrderMaster orderMaster=new OrderMaster();
-        long oderId=3L;
-        long productId=501L;
+    public void saveOrder(Order orderMaster) {
 
-        orderMaster.setId(oderId);
-        orderMaster.setEmp("jang jae ock");
         orderMasterRepository.save(orderMaster);
+        System.out.println("========master");
 
+        for(OrderItem orderItem : orderMaster.getOrderItemList() ) {
+            orderItem.setId(orderMaster.getId());
+            orderItemRepository.save(orderItem);
+        }
 
-        OrderItem orderItem= new OrderItem();
-        orderItem.setId(oderId);
-        orderItem.setProductcode(productId);
-
-        orderItem.setProductname("OLE TV 3");
-        orderItem.setPrice(3000L);
-        orderItem.setQty(10L);
-
-        orderItemRepository.save(orderItem);
-
-        OrderItemPK orderItemPK= new OrderItemPK();
-        orderItemPK.setId(oderId);
-        orderItemPK.setProductcode(productId);
-
-        Optional<OrderItem> oi= orderItemRepository.findById(orderItemPK );
-        System.out.println("========+++++++++++++++++++++++++++++++");
-        System.out.println(oi);
-
-
-        //orderItemRepository.save()
-
-
+        System.out.println("========++++++save end+++++++++++++++++++++++++");
     }
 
 
