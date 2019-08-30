@@ -12,9 +12,11 @@ import java.io.Serializable;
 public class OrderItem {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     private Long   id;
 
     @Id
+    @Column(name = "productcode", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productcode;
 
@@ -22,6 +24,8 @@ public class OrderItem {
     private long   qty;
     private long   price;
 }
+
+
 
 @Data
 class OrderItemPK implements Serializable {
