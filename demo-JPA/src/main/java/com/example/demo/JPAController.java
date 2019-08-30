@@ -21,6 +21,30 @@ public class JPAController {
     @Autowired
     CityRepository cityRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    JPAService jpaService;
+
+    /**
+     * @param request
+     * @param response
+     * @param List<Book>
+     * @return
+     * @throws Exception
+     * Service 호출사례
+     */
+    @RequestMapping(value = "/city/pop/{population}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public List<City>  findByName3(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable(value = "population") int population
+    ) throws Exception {
+        System.out.println("city RequestMapping start!!!");
+        return jpaService.findByPopulation(population);
+        //return this.cityRepository.findByPopulation(population);
+    }
+
+
 
     /**
      * @param request
@@ -51,5 +75,46 @@ public class JPAController {
         System.out.println("city RequestMapping start!!!");
         return this.cityRepository.findByCountrycode(countryCode);
     }
+
+
+
+    /**
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/user/username/{username}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public List<User>  findByName4(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable(value = "username") String username
+    ) throws Exception {
+        System.out.println("username RequestMapping start!!!");
+        return this.userRepository.findByUsername(username);
+    }
+
+
+    /**
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/order/save", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public RetrunVO findByName5(HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        System.out.println("/order/save RequestMapping start!!!");
+        OrderMaster orderMaster=new OrderMaster();
+//        orderMaster.setId(2L);
+        orderMaster.setEmp("kim");
+        jpaService.saveOrderMaster(orderMaster);
+        RetrunVO vo= new RetrunVO();
+        vo.setContents("OK");
+        return vo;
+    }
+
+
+
 
 }

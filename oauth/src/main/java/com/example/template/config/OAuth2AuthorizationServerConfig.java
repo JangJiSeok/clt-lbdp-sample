@@ -58,8 +58,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	@Autowired
-	UserRepository userRepository;
+	@Autowired	UserRepository userRepository;
 
 	@Autowired
 	private Environment env;

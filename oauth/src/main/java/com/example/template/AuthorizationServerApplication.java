@@ -42,6 +42,7 @@ public class AuthorizationServerApplication implements CommandLineRunner {
 
 		repository.save(user);
 
+
 	}
 
 

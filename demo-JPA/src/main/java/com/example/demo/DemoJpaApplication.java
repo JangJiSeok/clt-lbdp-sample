@@ -6,6 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.transaction.Transaction;
+import java.util.Optional;
 
 @SpringBootApplication
 public class DemoJpaApplication implements CommandLineRunner{
@@ -13,23 +22,35 @@ public class DemoJpaApplication implements CommandLineRunner{
     private static final Logger log = LoggerFactory.getLogger(DemoJpaApplication.class);
 
     @Autowired
+    private WebApplicationContext applicationContext;
+
+    @Autowired
     private BookRepository repository;
 
     @Autowired
     private CityRepository repository2;
-    
+
+    @Autowired
+    private UserRepository repository3;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private OrderMasterRepository orderMasterRepository;
+
+    //public static ApplicationContext applicationContext;
+    @Autowired
+    JPAService jpaService;
+
 	public static void main(String[] args) {
-		SpringApplication.run(DemoJpaApplication.class, args);
+        SpringApplication.run(DemoJpaApplication.class, args);
 	}
 	
     @Override
     public void run(String... args) {
 
         log.info("StartApplication...");
-
-        repository.save(new Book("Java"));
-        repository.save(new Book("Node"));
-        repository.save(new Book("Python"));
 
         System.out.println("\nfindAll()");
         repository.findAll().forEach(x -> System.out.println(x));
@@ -52,7 +73,54 @@ public class DemoJpaApplication implements CommandLineRunner{
        repository2.findByCountrycode("AFG").forEach(x -> System.out.println(x));
 
 
-        
+        System.out.println("\nCity findByUsername('jojang.com')");
+        repository3.findByUsername("jojang.com").forEach(x -> System.out.println(x));
+
+//        EntityManagerFactory factory = applicationContext.getBean(EntityManagerFactory.class); EntityManager manager = factory.createEntityManager();
+//        EntityManager em = factory.createEntityManager();
+
+        System.out.println("====================================================================================");
+
+//        OrderItem orderItem = new OrderItem();
+//        orderItem.setId(1L);
+//        orderItem.setProductCode(301L);
+//        orderItem.setProductName("ABC");
+//        orderItem.setQty(200);
+//        orderItem.setPrice(5000);
+
+
+        System.out.println("====================================================================================");
+
+//        OrderItemPK pk= new OrderItemPK();
+//        pk.setId(1L);
+//        pk.setProductCode(301L);
+//
+//        Optional<OrderItem> orderItem2 = Optional.of(new OrderItem());
+//        orderItem2=orderItemRepository.findById(pk);
+//        System.out.println("\nPK Search ('Order')");
+//        System.out.println("ProductName:" +orderItem2);
+
+
+
+//        em.persist(orderItem);
+//        em.flush();
+//        em.clear();
+//
+//        OrderItemPK pk= new OrderItemPK();
+//        pk.setId(1L);
+//        pk.setProductCode(301L);
+//
+//        orderItem =em.find(OrderItem.class,pk);
+//        System.out.println("\nPK Search ('Order')");
+//        System.out.println("ProductName:" +orderItem.getProductName());
+
+
+
+
+
+
+
+
     }
 
 }

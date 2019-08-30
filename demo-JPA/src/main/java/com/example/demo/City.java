@@ -2,12 +2,7 @@ package com.example.demo;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -24,7 +19,6 @@ public class City implements Serializable {
     @Column(name = "name", updatable = false, nullable = false)
     public String name;
 
-    @Column(name = "countrycode", updatable = false, nullable = true)
     public String countrycode;
     
     
