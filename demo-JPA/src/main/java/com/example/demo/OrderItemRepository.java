@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface OrderItemRepository extends PagingAndSortingRepository<OrderItem, OrderItemPK> {
 
-    List<OrderItem> findByProductName(String productName);
+    List<OrderItem> findByProductname(String productname);
 
 }

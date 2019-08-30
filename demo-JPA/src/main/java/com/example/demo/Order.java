@@ -6,10 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "Order", schema = "world")
-public class OrderMaster {
+@Table(name = "ordermaster", schema = "world")
+public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String emp;
 

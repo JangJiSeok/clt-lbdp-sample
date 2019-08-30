@@ -3,23 +3,22 @@ package com.example.demo;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "OrderItem", schema = "world")
+@Table(name = "orderitem", schema = "world")
 @IdClass(OrderItemPK.class)
 public class OrderItem {
 
-//    @EmbeddedId
-//    private OrderItemPK orderItemPK;
+    @Id
+    private Long   id;
 
     @Id
-    private long   id;
-    @Id
-    private long productCode;
+    private Long productcode;
 
-    private String productName;
+    private String productname;
     private long   qty;
     private long   price;
-
 }
+

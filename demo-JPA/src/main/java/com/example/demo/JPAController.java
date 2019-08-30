@@ -105,8 +105,8 @@ public class JPAController {
     public RetrunVO findByName5(HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         System.out.println("/order/save RequestMapping start!!!");
-        OrderMaster orderMaster=new OrderMaster();
-//        orderMaster.setId(2L);
+        Order orderMaster=new Order();
+        orderMaster.setId(2L);
         orderMaster.setEmp("kim");
         jpaService.saveOrderMaster(orderMaster);
         RetrunVO vo= new RetrunVO();

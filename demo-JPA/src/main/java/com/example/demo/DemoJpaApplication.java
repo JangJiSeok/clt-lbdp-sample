@@ -6,15 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.transaction.Transaction;
-import java.util.Optional;
 
 @SpringBootApplication
 public class DemoJpaApplication implements CommandLineRunner{
@@ -37,7 +29,7 @@ public class DemoJpaApplication implements CommandLineRunner{
     private OrderItemRepository orderItemRepository;
 
     @Autowired
-    private OrderMasterRepository orderMasterRepository;
+    private OrderRepository orderMasterRepository;
 
     //public static ApplicationContext applicationContext;
     @Autowired
