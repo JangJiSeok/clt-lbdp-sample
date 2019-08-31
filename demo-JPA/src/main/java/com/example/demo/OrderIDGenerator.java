@@ -1,21 +1,38 @@
 package com.example.demo;
 
 import com.example.demo.idutil.IDGenManager;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transaction;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 
+
+
+@Slf4j
+@Data
 public class OrderIDGenerator  implements IdentifierGenerator {
 
     //@Autowired
     private IDGenManager idm;
+    private static final String sequencename="sequence_orderid";
+    private static final String schemaname="world";
 
     @Override
+    //@Transactional(propagation = Propagation.NEVER)
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        long iSeq = 0;
+        String sSeq="";
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddMMmmss");
             /* TODO 2019-08-30
@@ -24,26 +41,25 @@ public class OrderIDGenerator  implements IdentifierGenerator {
             *   need to make Common Utility for all custom id generator
             *
             * */
-            try {
-                String sequencename="hibernate_sequence";
-                String schemaname="world";
 
+
+            try {
                 idm = new IDGenManager();
-                idm.getNextVal(sequencename, schemaname,5);
+                iSeq = idm.getNextVal(this.sequencename, this.schemaname,5);
+                log.debug( "OrderIDGenerator Seq:" + iSeq);
+                session.connection().commit();
 
             }catch (Exception ex) {
                 ex.printStackTrace();
             }
 
-            // TODO: 2019-08-30
-            /*
-                CREATE TABLE sequence_orderID( next_val int auto_increment primary key )
-                select next_val as id_val from sequence_orderid for update
-                update hibernate_sequence set next_val= ? where next_val=?
-                SELECT count(*) as cnt FROM Information_schema.tables WHERE table_schema = ? AND table_name = ?
-             */
+            sSeq=StringUtils.leftPad( Long.toString(iSeq), 5,"0" );
 
-            return Long.parseLong(simpleDateFormat.format(new Date()));
+            // TODO: 2019-08-30
+            log.debug("\n------------------------------------------------------------");
+            log.debug("\n" + Long.parseLong(simpleDateFormat.format(new Date())) + sSeq );
+            log.debug("\n------------------------------------------------------------");
+            return Long.parseLong(simpleDateFormat.format(new Date()) + sSeq )    ;
         } catch (Exception e) {
             e.printStackTrace();
         }

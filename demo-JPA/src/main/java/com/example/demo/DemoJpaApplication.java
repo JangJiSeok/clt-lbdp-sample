@@ -1,22 +1,27 @@
 package com.example.demo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @SpringBootApplication
 public class DemoJpaApplication implements CommandLineRunner{
-
-    private static final Logger log = LoggerFactory.getLogger(DemoJpaApplication.class);
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -35,13 +40,6 @@ public class DemoJpaApplication implements CommandLineRunner{
 
     @Autowired
     private OrderRepository orderMasterRepository;
-
-    //public static ApplicationContext applicationContext;
-    @Autowired
-    JPAService jpaService;
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
 	public static void main(String[] args) {
         SpringApplication.run(DemoJpaApplication.class, args);
@@ -145,7 +143,6 @@ public class DemoJpaApplication implements CommandLineRunner{
         list.forEach(System.out::println);
 
 	}
-
 
 
 

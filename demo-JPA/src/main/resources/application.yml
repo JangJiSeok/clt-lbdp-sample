@@ -1,5 +1,4 @@
 logging:
-    file: logs/dev_app.log
     pattern:
         console: "%d %-5level %logger : %msg%n"
         file: "%d %-5level [%thread] %logger : %msg%n"
@@ -14,7 +13,6 @@ logging:
                     descriptor:
                         sql:
                             BasicBinder: TRACE
-
 server:
     address: localhost
     port: 80

@@ -1,7 +1,10 @@
 package com.example.demo;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +16,8 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "ordermaster", schema = "world")
+@OptimisticLocking(type = OptimisticLockType.ALL)
+@DynamicUpdate
 public class Order {
 
     // TODO: 2019-08-30 OrderNo = SysDate||Format(ServialNo,00000000001)
