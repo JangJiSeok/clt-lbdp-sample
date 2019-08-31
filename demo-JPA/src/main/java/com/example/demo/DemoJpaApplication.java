@@ -41,6 +41,10 @@ public class DemoJpaApplication implements CommandLineRunner{
     @Autowired
     private OrderRepository orderMasterRepository;
 
+    @Autowired
+    private JdbcTemplate jdbc;
+
+
 	public static void main(String[] args) {
         SpringApplication.run(DemoJpaApplication.class, args);
 
@@ -56,36 +60,36 @@ public class DemoJpaApplication implements CommandLineRunner{
     @Override
     public void run(String... args) {
 
-        log.info("StartApplication...");
+        log.debug("StartApplication...");
 
-//        System.out.println("\nfindAll()");
+//        log.debug("\nfindAll()");
       // repository.findAll().forEach(x -> System.out.println(x));
 
-        System.out.println("\nfindById(1L)");
+        log.debug("\nfindById(1L)");
         repository.findById(1l).ifPresent(x -> System.out.println(x));
 //
-//        System.out.println("\nfindByName('Node')");
+//        log.debug("\nfindByName('Node')");
 //        repository.findByName("Node").forEach(x -> System.out.println(x));
 //
 //
-//        System.out.println("\n==================city=================");
-//        System.out.println("\nfindById(10L)");
+//        log.debug("\n==================city=================");
+//        log.debug("\nfindById(10L)");
 //        repository2.findById(10L).ifPresent(x -> System.out.println(x));
 //
-//        System.out.println("\nCity findByName('Rafah')");
+//        log.debug("\nCity findByName('Rafah')");
 //        repository2.findByName("Rafah").forEach(x -> System.out.println(x));
 //
-//        System.out.println("\nCity findByCountrycodeReturnStream('AFG')");
+//        log.debug("\nCity findByCountrycodeReturnStream('AFG')");
 //       repository2.findByCountrycode("AFG").forEach(x -> System.out.println(x));
 //
 //
-//        System.out.println("\nCity findByUsername('jojang.com')");
+//        log.debug("\nCity findByUsername('jojang.com')");
 //        repository3.findByUsername("jojang.com").forEach(x -> System.out.println(x));
 
 //        EntityManagerFactory factory = applicationContext.getBean(EntityManagerFactory.class); EntityManager manager = factory.createEntityManager();
 //        EntityManager em = factory.createEntityManager();
 
-        System.out.println("====================================================================================");
+//        log.debug("====================================================================================");
 
 //        OrderItem orderItem = new OrderItem();
 //        orderItem.setId(1L);
@@ -95,7 +99,7 @@ public class DemoJpaApplication implements CommandLineRunner{
 //        orderItem.setPrice(5000);
 
 
-        System.out.println("====================================================================================");
+//        log.debug("====================================================================================");
 
 //        OrderItemPK pk= new OrderItemPK();
 //        pk.setId(1L);
@@ -103,8 +107,8 @@ public class DemoJpaApplication implements CommandLineRunner{
 //
 //        Optional<OrderItem> orderItem2 = Optional.of(new OrderItem());
 //        orderItem2=orderItemRepository.findById(pk);
-//        System.out.println("\nPK Search ('Order')");
-//        System.out.println("ProductName:" +orderItem2);
+//        log.debug("\nPK Search ('Order')");
+//        log.debug("ProductName:" +orderItem2);
 
 
 
@@ -117,8 +121,8 @@ public class DemoJpaApplication implements CommandLineRunner{
 //        pk.setProductCode(301L);
 //
 //        orderItem =em.find(OrderItem.class,pk);
-//        System.out.println("\nPK Search ('Order')");
-//        System.out.println("ProductName:" +orderItem.getProductName());
+//        log.debug("\nPK Search ('Order')");
+//        log.debug("ProductName:" +orderItem.getProductName());
 
             method();
 
@@ -127,7 +131,6 @@ public class DemoJpaApplication implements CommandLineRunner{
 
 
 
-    @Autowired private JdbcTemplate jdbc;
 
 	public void method() {
 
@@ -139,8 +142,12 @@ public class DemoJpaApplication implements CommandLineRunner{
 //	    List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM TEST_TABLE");
 //	    list.forEach(System.out::println);
 
+        log.debug("\n====================================================================================");
+        log.debug("\n====================================================================================");
+        
         List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM world.ordermaster");
         list.forEach(System.out::println);
+        log.debug("\n====================================================================================");
 
 	}
 

@@ -22,45 +22,29 @@ import java.util.Map;
 @Service
 public class IDGenManager {
 
-  //  @Autowired
-    IDDao dao;
-
-    @Autowired
-    DataSource dataSource;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public long getNextVal(String sequencename,String schemaname ,int size) throws Exception{
-        long nextVal=1L;
-
-        dao=new IDDao();
-        dao.setSchemaname(schemaname);
-        dao.setSequencename(sequencename);
-
-        boolean isExist =dao.isSequence();
-        if (!isExist) dao.createSeqTable();
-
-        nextVal=dao.getNextVal();
-        dao.incrementNextVal(nextVal);
-
-        return nextVal;
+    public long getNextVal2(String sequencename,String schemaname ,int size) throws Exception{
+        return new IDDao(sequencename,schemaname).getNextVal2();
     }
 
+
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
-//    private void createTable(String sequencename) throws Exception{
-//       // em.persist(account);
+//    public long getNextVal(String sequencename,String schemaname ,int size) throws Exception{
+//        long nextVal=1L;
+//
+//        dao=new IDDao();
+//        dao.setSchemaname(schemaname);
+//        dao.setSequencename(sequencename);
+//
+//        boolean isExist =dao.isSequence();
+//        if (!isExist) dao.createSeqTable();
+//
+//        nextVal=dao.getNextVal();
+//        dao.incrementNextVal(nextVal);
+//
+//        return nextVal;
 //    }
-//
-//    private long selectNextVal(String sequencename) throws Exception {
-//
-//    }
-//
-//    private void updateNextVal(String sequencename) throws Exception {
-//
-//    }
-
-
-
-
 
 }
 

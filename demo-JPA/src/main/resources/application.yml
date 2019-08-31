@@ -27,7 +27,7 @@ spring:
         password: test
         url: jdbc:mysql://localhost:3306/world?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         sql-script-encoding: UTF-8
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         hikari:
             connection-timeout: 20000
             idle-timeout: 300000
@@ -36,7 +36,7 @@ spring:
             minimum-idle: 5
     jpa:
         database: mysql
-        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database-platform:  org.hibernate.dialect.MySQL8Dialect
         generate-ddl: true
         hibernate:
             ddl-auto: update
@@ -45,7 +45,7 @@ spring:
                 strategy: org.hibernate.cfg.ImprovedNamingStrategy
         properties:
             hibernate:
-                dialect: org.hibernate.dialect.MySQL57Dialect
+                dialect: org.hibernate.dialect.MySQL8Dialect
                 enable_lazy_load_no_trans: true
                 format_sql: true
         show-sql: true

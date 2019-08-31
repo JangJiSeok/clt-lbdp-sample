@@ -1,12 +1,14 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,15 @@ public class JPAService {
 
     @Autowired
     private OrderRepository orderMasterRepository;
+
+    @Autowired
+    private JdbcTemplate jdbc;
+
+    public List<Map<String,Object>> testJdbcTemplate() {
+        List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM world.ordermaster");
+        list.forEach(System.out::println);
+        return list;
+    }
 
 
     @Transactional(readOnly = true)

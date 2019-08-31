@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -32,6 +33,22 @@ public class JPAController {
 
     @Autowired
     JPAService jpaService;
+
+    /**
+     * @param request
+     * @param response
+     * @param List<Book>
+     * @return
+     * @throws Exception
+     * Service 호출사례
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public List<Map<String,Object>>  test(HttpServletRequest request, HttpServletResponse response
+    ) throws Exception {
+        System.out.println("Service RequestMapping start!!!");
+        return jpaService.testJdbcTemplate();
+        //return this.cityRepository.findByPopulation(population);
+    }
 
     /**
      * @param request
@@ -106,7 +123,7 @@ public class JPAController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/save/{chidCnt}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/order/insert/{chidCnt}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public RetrunVO  findByName7(HttpServletRequest request, HttpServletResponse response,
                                    @PathVariable(value = "chidCnt") long chidCnt
     ) throws Exception {
@@ -144,7 +161,7 @@ public class JPAController {
      * @throws Exception
      */
     @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public Optional<Order> findByOrderId(HttpServletRequest request, HttpServletResponse response,
+    public Optional<Order> orderDML10001(HttpServletRequest request, HttpServletResponse response,
                                          @PathVariable(value = "orderId") long orderId
     ) throws Exception {
         System.out.println("username RequestMapping start!!!");
@@ -152,7 +169,30 @@ public class JPAController {
     }
 
 
+    /**
+     * @param
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/order/delete/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public RetrunVO orderDML10002(HttpServletRequest request, HttpServletResponse response,
+                                         @PathVariable(value = "orderId") long orderId
+    ) throws Exception {
+        System.out.println("username RequestMapping start!!!");
 
+        Optional<Order> order= this.orderRepository.findById(orderId);
+        //this.orderRepository.delete(order);
+
+        RetrunVO vo= new RetrunVO();
+        vo.setContents("OK");
+        return vo;
+    }
+
+
+
+    // TODO: 2019-08-31 add Multi orderMaster operation for the test of sequence
 
 
 }
