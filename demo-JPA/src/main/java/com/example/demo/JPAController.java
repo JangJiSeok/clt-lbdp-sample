@@ -205,20 +205,16 @@ public class JPAController {
 
         Order order= this.orderRepository.findById(orderId).get();
         order.setEmp(emp);
+        List<OrderItem> orderItemList= order.getOrderItemList();
 
+        for(OrderItem orderItem : orderItemList ) {
+            orderItem.setQty(999999L);
+        }
 
         this.orderRepository.save(order);
 
-
-//        OrderItemPK orderItemPK = new OrderItemPK();
-//        orderItemPK.setId();
-//        List<OrderItem> orderItemList= this.orderItemRepository.findByOrderIdAndNameNamedParams(orderId);
-//        orderItemList.forEach(System.out::println);
-
-
-
         RetrunVO vo= new RetrunVO();
-        vo.setContents("Modify order");
+        vo.setContents("Modify order, QTY modified too");
         vo.setId(order.getId());
 
         return vo;
