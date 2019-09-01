@@ -205,6 +205,8 @@ public class JPAController {
 
         Order order= this.orderRepository.findById(orderId).get();
         order.setEmp(emp);
+        order.setCurrency(Currency.EURO);
+
         List<OrderItem> orderItemList= order.getOrderItemList();
 
         for(OrderItem orderItem : orderItemList ) {

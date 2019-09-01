@@ -13,10 +13,11 @@ import java.util.List;
 
 
 enum Currency  {
-    DOLLLAR(1) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
-    , EURO(2){ public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
-    , YEN(3){ public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
-    , YUAN(4) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} };
+      DEFAULT(0) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , DOLLLAR(1) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , EURO(2)    { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , YEN(3)     { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , YUAN(4)    { public void showCurrency(){ System.out.println("Current currency id: " + getId());} };
 
     int id;
     private Currency(int id){
@@ -53,40 +54,10 @@ public class Order {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true) // FetchType.LAZY
     private List<OrderItem> orderItemList;
 
+    private Currency currency;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmp() {
-        return emp;
-    }
-
-    public void setEmp(String emp) {
-        this.emp = emp;
-    }
-
-    public String getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
-    }
-
+    @Transient
+    private int testAttr;
 
 
 }
