@@ -11,7 +11,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-//@SequeceGenerator(name = "TEAM_SEQ_GENERATOR", sequenceName = "TEAM_SEQ", initialValue = 1, allocationSize = 1)
+
+enum Currency  {
+    DOLLLAR(1) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , EURO(2){ public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , YEN(3){ public void showCurrency(){ System.out.println("Current currency id: " + getId());} }
+    , YUAN(4) { public void showCurrency(){ System.out.println("Current currency id: " + getId());} };
+
+    int id;
+    private Currency(int id){
+        this.id = id;
+    }
+    public int getId(){
+        return id;
+    }
+
+}
+
 
 @Entity
 @Data
@@ -24,7 +40,7 @@ public class Order {
     // Custom ID Generator in
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id",insertable = false, updatable = false, nullable = false)
     //@GeneratedValue(strategy = GenerationType.AUTO)
     @GenericGenerator(name = "sequence_orderid", strategy = "com.example.demo.OrderIDGenerator")
     @GeneratedValue(generator = "sequence_orderid")
@@ -34,7 +50,7 @@ public class Order {
     private String createdate;
 
     //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "id") // FetchType.LAZY
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true) // FetchType.LAZY
     private List<OrderItem> orderItemList;
 
 

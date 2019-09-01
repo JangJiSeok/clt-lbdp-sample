@@ -150,6 +150,7 @@ public class JPAController {
 
         RetrunVO vo= new RetrunVO();
         vo.setContents("OK");
+        vo.setId(order.getId());
         return vo;
     }
 
@@ -183,10 +184,10 @@ public class JPAController {
         System.out.println("username RequestMapping start!!!");
 
         Optional<Order> order= this.orderRepository.findById(orderId);
-        //this.orderRepository.delete(order);
+        this.orderRepository.deleteById(orderId);
 
         RetrunVO vo= new RetrunVO();
-        vo.setContents("OK");
+        vo.setContents("Delete OK");
         return vo;
     }
 

@@ -7,4 +7,5 @@ import javax.persistence.Entity;
 @Data
 public class RetrunVO {
     private String contents;
+    private long id;
 }

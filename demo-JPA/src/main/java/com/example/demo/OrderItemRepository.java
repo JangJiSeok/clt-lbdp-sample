@@ -10,4 +10,8 @@ public interface OrderItemRepository extends PagingAndSortingRepository<OrderIte
 
     List<OrderItem> findByProductname(String productname);
 
+    //    @Query(value="SELECT id, qty, price FROM orderitem where id=:id ")
+//    List<OrderItem> findByOrderIdAndNameNamedParams(@Param("id") long id);
+
+
 }
