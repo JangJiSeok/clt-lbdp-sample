@@ -1,10 +1,7 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -192,8 +189,45 @@ public class JPAController {
     }
 
 
+    /**
+     * @param
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public RetrunVO orderDML10003(HttpServletRequest request, HttpServletResponse response
+            ,@PathVariable(value = "orderId") long orderId
+            ,@RequestParam(value = "emp", required = false  ,defaultValue = "Ha kyung") String emp
+    ) throws Exception {
+        System.out.println("order/modify RequestMapping start!!!");
+
+        Order order= this.orderRepository.findById(orderId).get();
+        order.setEmp(emp);
+
+
+        this.orderRepository.save(order);
+
+
+//        OrderItemPK orderItemPK = new OrderItemPK();
+//        orderItemPK.setId();
+//        List<OrderItem> orderItemList= this.orderItemRepository.findByOrderIdAndNameNamedParams(orderId);
+//        orderItemList.forEach(System.out::println);
+
+
+
+        RetrunVO vo= new RetrunVO();
+        vo.setContents("Modify order");
+        vo.setId(order.getId());
+
+        return vo;
+    }
+
+
 
     // TODO: 2019-08-31 add Multi orderMaster operation for the test of sequence
 
 
 }
+
