@@ -6,10 +6,12 @@ logging:
         root: WARN
         com.example.demo: debug
         org.springframework.web: WARN
+
         org:
             hibernate:
-                SQL: DEBUG
+                SQL: trace
                 type:
+                    BasicTypeRegistry: none
                     descriptor:
                         sql:
                             BasicBinder: TRACE

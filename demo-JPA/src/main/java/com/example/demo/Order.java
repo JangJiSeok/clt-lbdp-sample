@@ -42,7 +42,6 @@ public class Order {
 
     @Id
     @Column(name = "id",insertable = false, updatable = false, nullable = false)
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     @GenericGenerator(name = "sequence_orderid", strategy = "com.example.demo.OrderIDGenerator")
     @GeneratedValue(generator = "sequence_orderid")
     private Long id;
@@ -50,10 +49,10 @@ public class Order {
     private String emp;
     private String createdate;
 
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true) // FetchType.LAZY
+    @OneToMany(mappedBy = "id",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true) // FetchType.LAZY
     private List<OrderItem> orderItemList;
 
+    @Transient
     private Currency currency;
 
     @Transient

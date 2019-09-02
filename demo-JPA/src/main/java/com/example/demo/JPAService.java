@@ -49,10 +49,10 @@ public class JPAService {
         orderMasterRepository.save(orderMaster);
         System.out.println("========master");
 
-        for(OrderItem orderItem : orderMaster.getOrderItemList() ) {
-            orderItem.setId(orderMaster.getId());
-            orderItemRepository.save(orderItem);
-        }
+//        for(OrderItem orderItem : orderMaster.getOrderItemList() ) {
+//            orderItem.setId(orderMaster.getId());
+//            orderItemRepository.save(orderItem);
+//        }
 
         System.out.println("========++++++save end+++++++++++++++++++++++++");
     }

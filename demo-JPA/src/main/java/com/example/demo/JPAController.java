@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +29,16 @@ public class JPAController {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    OrderItemRepository orderItemRepository;
+
 
     @Autowired
     JPAService jpaService;
+
+    private final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+
 
     /**
      * @param request
@@ -122,28 +131,36 @@ public class JPAController {
      */
     @RequestMapping(value = "/order/insert/{chidCnt}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public RetrunVO  findByName7(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable(value = "chidCnt") long chidCnt
+                                   @PathVariable(value = "chidCnt") int chidCnt
     ) throws Exception {
         System.out.println("/order/save RequestMapping start!!!");
 
         // TODO: 2019-08-30 add the header of Returned VO(Value Object), so have to declare "extends AbstractHeader Class" in all VO
 
         Order order=new Order();
-        //orderMaster.setId(orderId);
         order.setEmp("jang jaeock");
+        order.setCreatedate(dateTimeFormatter.format(LocalDateTime.now()));
+       // orderRepository.save(order);
+        //long orderId=order.getId();
+        //System.out.println("orderId:"+ orderId);
 
         List<OrderItem> orderItemList = new ArrayList();
         for (int idx=1; idx<=chidCnt;idx++ ) {
             OrderItem orderItem = new OrderItem();
+          //  orderItem.setId(order.getId());
             orderItem.setProductname("New Data Server");
             orderItem.setQty(3000L);
             orderItem.setPrice(500L);
+            //orderItemRepository.save(orderItem);
             orderItemList.add(orderItem);
         }
 
         order.setOrderItemList(orderItemList);
+        orderRepository.save(order);
 
-        jpaService.saveOrder(order);
+
+
+        //jpaService.saveOrder(order);
 
         RetrunVO vo= new RetrunVO();
         vo.setContents("OK");
