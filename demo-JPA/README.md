@@ -18,4 +18,7 @@ mybatis테스트
 조회: http localhost/test2/name2?name=jangjaeok2
 
 
+실수...
+반드시 Repository는 interface로 선언해야 함..
+
 

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,9 @@ public class DemoJpaApplication implements CommandLineRunner{
 
     @Autowired
     private JdbcTemplate jdbc;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
 
 	public static void main(String[] args) {
@@ -124,11 +128,21 @@ public class DemoJpaApplication implements CommandLineRunner{
 //        log.debug("\nPK Search ('Order')");
 //        log.debug("ProductName:" +orderItem.getProductName());
 
-            method();
+        method();
+        myBatisTest();
 
     }
 
+    public void myBatisTest() {
 
+        String userName="jang jaeock";
+        List<Order> list = orderMapper.findAllByEmp(userName);
+        log.debug("\n====================================================================================");
+        log.debug("\n Mybatis test");
+        log.debug("\n====================================================================================");
+        list.forEach(System.out::println);
+        log.debug("\n====================================================================================");
+    }
 
 
 
@@ -143,8 +157,8 @@ public class DemoJpaApplication implements CommandLineRunner{
 //	    list.forEach(System.out::println);
 
         log.debug("\n====================================================================================");
+        log.debug("\njdbcTemplate test");
         log.debug("\n====================================================================================");
-        
         List<Map<String, Object>> list = this.jdbc.queryForList("SELECT * FROM world.ordermaster");
         list.forEach(System.out::println);
         log.debug("\n====================================================================================");
