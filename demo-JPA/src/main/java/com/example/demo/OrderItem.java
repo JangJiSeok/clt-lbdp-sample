@@ -13,7 +13,7 @@ public class OrderItem {
 
     @Id
     @MapsId("id")
-    @ManyToOne
+//    @ManyToOne
     @JoinColumn(name = "id")
     private Long   id;
 

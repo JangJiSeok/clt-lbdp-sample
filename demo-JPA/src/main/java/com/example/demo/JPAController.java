@@ -140,14 +140,14 @@ public class JPAController {
         Order order=new Order();
         order.setEmp("jang jaeock");
         order.setCreatedate(dateTimeFormatter.format(LocalDateTime.now()));
-       // orderRepository.save(order);
-        //long orderId=order.getId();
-        //System.out.println("orderId:"+ orderId);
+        orderRepository.save(order);
+        long orderId=order.getId();
+        System.out.println("orderId:"+ orderId);
 
         List<OrderItem> orderItemList = new ArrayList();
         for (int idx=1; idx<=chidCnt;idx++ ) {
             OrderItem orderItem = new OrderItem();
-          //  orderItem.setId(order.getId());
+             orderItem.setId(order.getId());
             orderItem.setProductname("New Data Server");
             orderItem.setQty(3000L);
             orderItem.setPrice(500L);
