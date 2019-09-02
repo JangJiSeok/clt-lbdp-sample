@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface OrderItemRepository extends PagingAndSortingRepository<OrderItem, OrderItemPK> {
+public interface OrderItemRepository extends PagingAndSortingRepository <OrderItem, OrderItemPK> {
 
     List<OrderItem> findByProductname(String productname);
 

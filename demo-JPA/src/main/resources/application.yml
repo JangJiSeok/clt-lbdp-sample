@@ -9,7 +9,7 @@ logging:
 
         org:
             hibernate:
-                SQL: trace
+                SQL: TRACE
                 type:
                     BasicTypeRegistry: none
                     descriptor:

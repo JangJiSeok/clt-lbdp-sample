@@ -1,10 +1,16 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -122,6 +128,7 @@ public class JPAController {
     }
 
 
+
     /**
      * @param request
      * @param response
@@ -129,13 +136,27 @@ public class JPAController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/insert/{chidCnt}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public RetrunVO  findByName7(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable(value = "chidCnt") int chidCnt
+    @PostMapping(value = "/order",  produces = "application/json;charset=UTF-8")
+    public Order  createOrder(@Valid @RequestBody Order order)  throws Exception {
+        System.out.println("/order/save RequestMapping start!!!");
+        return orderRepository.save(order);
+    }
+
+
+    /**
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/order/{chidCnt}",  produces = "application/json;charset=UTF-8")
+    public Order  createTempData(@PathVariable(value = "chidCnt") int chidCnt
     ) throws Exception {
         System.out.println("/order/save RequestMapping start!!!");
 
         // TODO: 2019-08-30 add the header of Returned VO(Value Object), so have to declare "extends AbstractHeader Class" in all VO
+
 
         Order order=new Order();
         order.setEmp("jang jaeock");
@@ -147,7 +168,7 @@ public class JPAController {
         List<OrderItem> orderItemList = new ArrayList();
         for (int idx=1; idx<=chidCnt;idx++ ) {
             OrderItem orderItem = new OrderItem();
-             orderItem.setId(order.getId());
+            orderItem.setId(order.getId());
             orderItem.setProductname("New Data Server");
             orderItem.setQty(3000L);
             orderItem.setPrice(500L);
@@ -156,31 +177,23 @@ public class JPAController {
         }
 
         order.setOrderItemList(orderItemList);
-        orderRepository.save(order);
+        return orderRepository.save(order);
 
-
-
-        //jpaService.saveOrder(order);
-
-        RetrunVO vo= new RetrunVO();
-        vo.setContents("OK");
-        vo.setId(order.getId());
-        return vo;
     }
 
     /**
      * @param
-     * @param request
-     * @param response
+     * @param
+     * @param
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public Optional<Order> orderDML10001(HttpServletRequest request, HttpServletResponse response,
-                                         @PathVariable(value = "orderId") long orderId
+    @GetMapping(value = "/order/{orderId}")
+    public Page<Order> deleteOrder(@PathVariable(value = "orderId") long orderId
+                                     ,@PageableDefault(size=20, sort="id",direction = Sort.Direction.ASC) Pageable pageable
     ) throws Exception {
         System.out.println("username RequestMapping start!!!");
-        return this.orderRepository.findById(orderId);
+        return this.orderRepository.findById(orderId, pageable);
     }
 
 
@@ -191,18 +204,16 @@ public class JPAController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/delete/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public RetrunVO orderDML10002(HttpServletRequest request, HttpServletResponse response,
-                                         @PathVariable(value = "orderId") long orderId
-    ) throws Exception {
-        System.out.println("username RequestMapping start!!!");
+    @DeleteMapping(value = "/order/{orderId}")
+    public ResponseEntity<?> orderDML10002(@PathVariable(value = "orderId") long orderId
+    )  {
 
-        Optional<Order> order= this.orderRepository.findById(orderId);
-        this.orderRepository.deleteById(orderId);
+        System.out.println("order delete start!!!");
 
-        RetrunVO vo= new RetrunVO();
-        vo.setContents("Delete OK");
-        return vo;
+        return this.orderRepository.findById(orderId).map(order -> {
+            this.orderRepository.deleteById(orderId);
+            return ResponseEntity.ok().build();
+        }).orElseThrow(()->new ResourceNotFoundException("OrderId: " + orderId + " not found") );
     }
 
 
@@ -213,31 +224,29 @@ public class JPAController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public RetrunVO orderDML10003(HttpServletRequest request, HttpServletResponse response
-            ,@PathVariable(value = "orderId") long orderId
-            ,@RequestParam(value = "emp", required = false  ,defaultValue = "Ha kyung") String emp
-    ) throws Exception {
+    @PutMapping(value = "/order/{orderId}",  produces = "application/json;charset=UTF-8")
+    public Order updateOrder(@PathVariable(value = "orderId") long orderId
+                            ,@RequestParam(value = "emp", required = false  ,defaultValue = "Ha kyung") String emp ) throws Exception  {
+
         System.out.println("order/modify RequestMapping start!!!");
 
-        Order order= this.orderRepository.findById(orderId).get();
-        order.setEmp(emp);
-        order.setCurrency(Currency.EURO);
-
-        List<OrderItem> orderItemList= order.getOrderItemList();
-
-        for(OrderItem orderItem : orderItemList ) {
-            orderItem.setQty(999999L);
+        if(!orderRepository.existsById(orderId)) {
+            throw new ResourceNotFoundException("OrderId: " + orderId + " not found");
         }
 
+        return this.orderRepository.findById(orderId).map(order -> {
+            order.setEmp(emp);
+            order.setCurrency(Currency.EURO);
 
-        this.orderRepository.save(order);
+            List<OrderItem> orderItemList= order.getOrderItemList();
+            for(OrderItem orderItem : orderItemList ) {
+                orderItem.setQty(999999L);
+                orderItem.setPrice(61300L);
+            }
+            return this.orderRepository.save(order);
 
-        RetrunVO vo= new RetrunVO();
-        vo.setContents("Modify order, QTY modified too!!!");
-        vo.setId(order.getId());
+            }).orElseThrow(()->new ResourceNotFoundException("OrderId: " + orderId + " not found") );
 
-        return vo;
     }
 
 

@@ -35,7 +35,7 @@ enum Currency  {
 @Table(name = "ordermaster", schema = "world")
 @OptimisticLocking(type = OptimisticLockType.ALL)
 @DynamicUpdate
-public class Order {
+public class Order extends AuditModel {
 
     // TODO: 2019-08-30 OrderNo = SysDate||Format(ServialNo,00000000001)
     // Custom ID Generator in
